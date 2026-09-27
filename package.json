@@ -1,0 +1,24 @@
+{
+  "name": "octen-mcp-web-researcher",
+  "version": "1.0.0",
+  "description": "An MCP-powered web researcher on Octen's MCP server",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=18.17" },
+  "scripts": {
+    "research": "tsx src/researcher.ts",
+    "list-tools": "tsx src/researcher.ts --list-tools",
+    "test": "tsx tests/offline.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@modelcontextprotocol/sdk": "^1.30.1",
+    "dotenv": "^17.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,10 +1,6 @@
 /**
- * Offline end-to-end test.
- *
- * Runs the real `octen-mcp` server over stdio, pointed (via OCTEN_API_URL) at a
- * local mock of the Octen API, and drives research() with a scripted stand-in
- * for the LLM. This exercises the MCP wiring, tool listing, tool calls, result
- * formatting and the agent loop without spending any API credit.
+ * Offline end-to-end test: runs the real `octen-mcp` server against a local mock
+ * of the Octen API and drives research() with a scripted LLM. No API credit used.
  *
  *   npm test
  */

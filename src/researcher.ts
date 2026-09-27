@@ -1,9 +1,6 @@
 /**
- * MCP-powered web researcher.
- *
- * Connects to Octen's MCP server (locally over stdio via `npx -y octen-mcp`, or
- * the hosted endpoint over Streamable HTTP), exposes its tools to Claude, and
- * runs a tool-use loop until the model returns a cited answer.
+ * MCP-powered web researcher: connects to Octen's MCP server (stdio or hosted
+ * HTTP), exposes its tools to Claude, and loops until it returns a cited answer.
  *
  *   npm run research -- "What changed in the latest MCP spec revision?"
  *   npm run list-tools
@@ -20,8 +17,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 export type Transport = "stdio" | "http";
 
 const HOSTED_URL = "https://mcp.octen.ai/mcp";
-// The research loop only needs these. Filtering keeps tool schemas out of the
-// model's context that it would never use (the beta media tools, for example).
+// Only expose what the loop uses, to keep unused tool schemas out of context.
 export const RESEARCH_TOOLS = ["search", "news_search", "broad_search", "extract"];
 const DEFAULT_MODEL = process.env.RESEARCHER_MODEL ?? "claude-sonnet-5";
 
@@ -66,9 +62,8 @@ export async function connect(transport: Transport): Promise<Client> {
     await client.connect(new StdioClientTransport({
       command: "npx",
       args: ["-y", "octen-mcp"],
-      // The MCP SDK gives the child process only a minimal environment unless
-      // you pass one. Pass yours through so npx sees your npm config and any
-      // proxy settings, then add what the server needs.
+      // The SDK passes a minimal env by default; forward ours so npx sees npm
+      // config and proxy settings.
       env: {
         ...(process.env as Record<string, string>),
         OCTEN_API_KEY: apiKey,
@@ -104,7 +99,7 @@ async function callTool(client: Client, name: string, args: Record<string, unkno
   return { text, isError: Boolean(result.isError) };
 }
 
-/** Print a compact view of what came back, so the trace stays readable. */
+/** Log a compact summary of a tool result. */
 function summarize(name: string, text: string) {
   const lines = text.split("\n");
   if (name === "broad_search") {

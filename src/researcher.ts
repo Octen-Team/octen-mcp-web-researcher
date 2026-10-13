@@ -65,7 +65,6 @@ export async function connect(transport: Transport): Promise<Client> {
       // The SDK passes a minimal env by default; forward ours so npx sees npm
       // config and proxy settings.
       env: {
-        ...(process.env as Record<string, string>),
         OCTEN_API_KEY: apiKey,
         OCTEN_ENABLE_BETA_TOOLS: "false",
       },
@@ -99,7 +98,6 @@ async function callTool(client: Client, name: string, args: Record<string, unkno
   return { text, isError: Boolean(result.isError) };
 }
 
-/** Log a compact summary of a tool result. */
 function summarize(name: string, text: string) {
   const lines = text.split("\n");
   if (name === "broad_search") {

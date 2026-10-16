@@ -19,7 +19,7 @@ export type Transport = "stdio" | "http";
 const HOSTED_URL = "https://mcp.octen.ai/mcp";
 // Only expose what the loop uses, to keep unused tool schemas out of context.
 export const RESEARCH_TOOLS = ["search", "news_search", "broad_search", "extract"];
-const DEFAULT_MODEL = process.env.RESEARCHER_MODEL ?? "claude-sonnet-5";
+const DEFAULT_MODEL = process.env.RESEARCHER_MODEL ?? "claude-sonnet-5-5";
 
 const SYSTEM_PROMPT = (today: string) => `You are a web researcher. Today's date is ${today}.
 
